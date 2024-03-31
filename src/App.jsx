@@ -74,7 +74,8 @@ function App() {
     setExerciseMode(!exerciseMode);
   };
 
-  // Handle user input in exercise mode
+  //test/ test
+  // Handle user input in exercise mode testetsest
   const handleUserInput = (tableIndex, valueIndex, value) => {
     // Make a deep copy of the current userAnswers state to avoid direct mutation
     const updatedAnswers = userAnswers.map((answer, index) => {
