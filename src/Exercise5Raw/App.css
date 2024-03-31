@@ -1,0 +1,63 @@
+.table-container {
+  position: relative; /* This makes it the reference point for absolute positioned children */
+}
+
+.button-container {
+  position: absolute; /* Adjust based on your layout, might need relative positioning on the parent */
+  top: 10px; /* Adjust the distance from the top */
+  right: 10px; /* Adjust the distance from the right */
+  display: flex;
+  gap: 10px;
+}
+
+.exercise-table {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.exercise-table table {
+  border-collapse: separate; /* Adjusted to 'separate' for individual cell borders */
+  border-spacing: 2px; /* Creates spacing between cells for black lines */
+  margin-bottom: 20px;
+}
+
+.exercise-table th,
+.exercise-table td {
+  border: 1px solid #000; /* Black border for contrast and separation */
+  min-width: 50px; /* Adjust as needed */
+  height: 50px; /* Adjust as needed */
+  background-color: #ffffff; /* White background for cells */
+  text-align: center;
+  color: #333; /* Darker text for better readability */
+}
+
+.exercise-table th {
+  background-color: #f0f0f0; /* Light grey for header */
+  color: #333; /* Ensuring text is readable */
+}
+
+.exercise-table input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-align: center;
+  color: #333; /* Text color for inputs */
+  background-color: #fff; /* Keeping input background white for consistency */
+}
+
+.exercise-table input:focus {
+  outline: none;
+  background-color: #e6e6e6; /* Light grey background for focus, for a subtle hint */
+}
+
+.exercise-table button {
+  cursor: pointer;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #e7e7e7; /* Light grey background for buttons */
+  color: #333; /* Text color for buttons */
+  border: 1px solid #ccc; /* Slight border for definition */
+}
