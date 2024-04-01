@@ -1,13 +1,13 @@
 import React from "react";
 import { calculateLineEquation, formatEquation } from "../ultis/calculation";
 
-const LineLegend = ({ lines, lineColors }) => {
+const LineLegend = ({ lineDetails }) => {
   return (
     <>
-      {lines.map((line, index) => (
-        <div key={index} style={{ color: lineColors[index] }}>
+      {lineDetails.map((details, index) => (
+        <div key={index} style={{ color: details.color }}>
           {`Line ${index + 1}: ${formatEquation(
-            calculateLineEquation(line[0], line[1])
+            calculateLineEquation(details.line[0], details.line[1])
           )}`}
         </div>
       ))}

@@ -14,8 +14,7 @@ const graphRange = 10;
 
 function App() {
   const [dots, setDots] = useState([]);
-  const [lines, setLines] = useState([]);
-  const [lineColors, setLineColors] = useState([]);
+  const [lineDetails, setLineDetails] = useState([]);
   const [placeDotsActive, setPlaceDotsActive] = useState(false);
   const [drawLineActive, setDrawLineActive] = useState(false);
   const [selectedDotsForLine, setSelectedDotsForLine] = useState([]);
@@ -25,6 +24,7 @@ function App() {
   const [xyArrays, setXyArrays] = useState([]);
   const [exerciseMode, setExerciseMode] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
+  const [chartRef, setChartRef] = useState(null);
 
   // Toggle exercise mode and handle submission
   const handleExerciseModeToggle = async () => {
@@ -54,6 +54,34 @@ function App() {
     setUserAnswers(updatedAnswers);
   };
 
+  useEffect(() => {
+    const hideDots = () => {
+      const chart = chartRef.current;
+      console.log(chart);
+      if (!chart) return;
+      console.log("hiding");
+
+      // Assuming the dots dataset is the first dataset (index 0)
+      const datasetIndex = 0;
+      chart.getDatasetMeta(datasetIndex).hidden = true; // Toggle visibility
+      chart.update(); // Step 3: Update the chart
+    };
+    const displayDots = () => {
+      const chart = chartRef.current;
+      console.log(chart);
+      if (!chart) return;
+      console.log("hiding");
+
+      // Assuming the dots dataset is the first dataset (index 0)
+      const datasetIndex = 0;
+      chart.getDatasetMeta(datasetIndex).hidden = false; // Toggle visibility
+      chart.update(); // Step 3: Update the chart
+    };
+    console.log(chartRef.current);
+    if (exerciseMode) hideDots();
+    else displayDots();
+  }, [chartRef, exerciseMode]);
+
   // Check if user's answers match the correct answers
   const checkAnswers = () => {
     return tablesData.every((table, tableIndex) => {
@@ -70,8 +98,8 @@ function App() {
   // Function to handle "Make Tables" button click
   const handleMakeTables = () => {
     const newTablesData = [];
-    const newXYArrays = lines.map((line, index) => {
-      const tableData = generateTableDataForLine(line, graphRange);
+    const newXYArrays = lineDetails.map((details, index) => {
+      const tableData = generateTableDataForLine(details.line, graphRange);
       newTablesData.push({ lineIndex: index + 1, data: tableData });
 
       // Extracting X and Y arrays
@@ -130,16 +158,15 @@ function App() {
           drawLineActive={drawLineActive}
           dots={dots}
           setDots={setDots}
-          lines={lines}
-          setLines={setLines}
           selectedDotsForLine={selectedDotsForLine}
           setSelectedDotsForLine={setSelectedDotsForLine}
-          lineColors={lineColors}
-          setLineColors={setLineColors}
+          lineDetails={lineDetails}
+          setLineDetails={setLineDetails}
+          setChartRef={setChartRef}
         />
 
         <div style={{ width: "20%" }}>
-          <LineLegend lines={lines} lineColors={lineColors} />
+          <LineLegend lineDetails={lineDetails} />
           <div className="arrow_box">
             <button onClick={togglePlaceDots} type="button">
               {placeDotsActive ? "Placing Dots..." : "Place Dots"}
@@ -148,7 +175,10 @@ function App() {
             <button
               onClick={toggleDrawLine}
               type="button"
-              style={{ marginTop: "10px" }}
+              style={{
+                display: `${dots.length > 1 ? "block" : "none"}`,
+                marginTop: "10px",
+              }}
             >
               {drawLineActive ? "Drawing Line..." : "Draw Line"}
             </button>
@@ -156,14 +186,20 @@ function App() {
             <button
               onClick={handleMakeTables}
               type="button"
-              style={{ marginTop: "10px" }}
+              style={{
+                display: `${lineDetails.length > 0 ? "block" : "none"}`,
+                marginTop: "10px",
+              }}
             >
               Make Tables
             </button>
             <button
               onClick={handleExerciseModeToggle}
               type="button"
-              style={{ marginTop: "10px" }}
+              style={{
+                display: `${tablesData.length > 0 ? "block" : "none"}`,
+                marginTop: "10px",
+              }}
             >
               {exerciseMode ? "Submit" : "Make Exercise"}
             </button>

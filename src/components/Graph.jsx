@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Scatter } from "react-chartjs-2";
 import { calculateLineEquation, formatEquation } from "../ultis/calculation";
 
@@ -8,12 +8,11 @@ const Graph = ({
   drawLineActive,
   dots,
   setDots,
-  lines,
-  setLines,
+  lineDetails,
+  setLineDetails,
   selectedDotsForLine,
   setSelectedDotsForLine,
-  lineColors,
-  setLineColors,
+  setChartRef,
 }) => {
   // Function to generate random color
   const generateRandomColor = () => {
@@ -35,9 +34,13 @@ const Graph = ({
         data: dots,
         backgroundColor: "black",
         pointRadius: 5,
+        animation: false,
       },
-      ...lines.map((line, index) => {
-        const { slope, yIntercept } = calculateLineEquation(line[0], line[1]);
+      ...lineDetails.map((detail, index) => {
+        const { slope, yIntercept } = calculateLineEquation(
+          detail.line[0],
+          detail.line[1]
+        );
         const extendedStart = {
           x: -graphRange,
           y: slope * -graphRange + yIntercept,
@@ -54,11 +57,11 @@ const Graph = ({
           data: [extendedStart, extendedEnd],
           type: "line",
           fill: false,
-          borderColor: lineColors[index],
+          borderColor: detail.color,
           borderWidth: 2,
           showLine: true,
           lineTension: 0,
-          pointRadius: 5,
+          pointRadius: 0, // No need to show points for the line
         };
       }),
     ],
@@ -123,17 +126,22 @@ const Graph = ({
         labels: {
           // This function ensures that the color of the text in the legend matches the line color
           color: (context) => {
-            // Assuming lineColors is an array of colors corresponding to each line
-            return lineColors[context.datasetIndex - 1] || "black"; // -1 because the first dataset is dots
+            // Directly access the color from the lineDetails array
+            // -1 because the first dataset is dots, so lineDetails[0] corresponds to context.datasetIndex 1
+            if (context.datasetIndex === 0) return "black"; // Return black for dots dataset
+            const lineDetail = lineDetails[context.datasetIndex - 1];
+            return lineDetail ? lineDetail.color : "black"; // Return the line color if exists, otherwise black
           },
           usePointStyle: true,
         },
       },
+
       tooltip: {
         enabled: false, // Disable tooltips as per your setup
       },
     },
     onClick: (e) => {
+      // Modify the onClick logic to update the new `lineDetails` state
       if (!placeDotsActive && !drawLineActive) return;
 
       const canvasPosition = e.chart.canvas.getBoundingClientRect();
@@ -154,25 +162,24 @@ const Graph = ({
         );
 
         if (existingIndex >= 0) {
-          // Logic for removing a dot and its connected lines remains unchanged
-          const filteredLines = lines.filter(
-            (line) =>
+          // Logic for removing a dot and its connected lines
+          const filteredLineDetails = lineDetails.filter(
+            (detail) =>
               !(
-                line[0].x === dots[existingIndex].x &&
-                line[0].y === dots[existingIndex].y
+                detail.line[0].x === dots[existingIndex].x &&
+                detail.line[0].y === dots[existingIndex].y
               ) &&
               !(
-                line[1].x === dots[existingIndex].x &&
-                line[1].y === dots[existingIndex].y
+                detail.line[1].x === dots[existingIndex].x &&
+                detail.line[1].y === dots[existingIndex].y
               )
           );
-          setLines(filteredLines);
+          setLineDetails(filteredLineDetails);
           setDots(dots.filter((_, index) => index !== existingIndex));
         } else {
           setDots([...dots, { x, y }]);
         }
       } else if (drawLineActive) {
-        // Logic for drawing lines is updated to create separate datasets for each line
         const clickThreshold = 0.5;
         const clickedDotIndex = dots.findIndex(
           (dot) =>
@@ -182,38 +189,40 @@ const Graph = ({
 
         if (clickedDotIndex >= 0 && selectedDotsForLine.length < 2) {
           const newSelectedDot = dots[clickedDotIndex];
-          if (selectedDotsForLine.some((dot) => dot === newSelectedDot)) {
-            return;
-          }
+          if (
+            !selectedDotsForLine.some(
+              (dot) => dot.x === newSelectedDot.x && dot.y === newSelectedDot.y
+            )
+          ) {
+            const newSelectedDots = [...selectedDotsForLine, newSelectedDot];
+            setSelectedDotsForLine(newSelectedDots);
 
-          const newSelectedDots = [...selectedDotsForLine, newSelectedDot];
-          setSelectedDotsForLine(newSelectedDots);
-
-          if (newSelectedDots.length === 2) {
-            if (
-              !lines.find(
-                (line) =>
-                  (line[0] === newSelectedDots[0] &&
-                    line[1] === newSelectedDots[1]) ||
-                  (line[0] === newSelectedDots[1] &&
-                    line[1] === newSelectedDots[0])
-              )
-            ) {
-              setLines([...lines, newSelectedDots]);
-              // Generate a new random color and add it to the lineColors array
-              const newColor = generateRandomColor();
-              setLineColors([...lineColors, newColor]);
+            if (newSelectedDots.length === 2) {
+              setLineDetails([
+                ...lineDetails,
+                { line: newSelectedDots, color: generateRandomColor() },
+              ]);
+              setSelectedDotsForLine([]);
             }
-            setSelectedDotsForLine([]);
           }
         }
       }
     },
     maintainAspectRatio: true,
   };
+  const chartRef = useRef(null);
+
+  useEffect(() => {
+    setChartRef(chartRef);
+    console.log(chartRef.current);
+    return () => {
+      setChartRef(null);
+    };
+  }, [setChartRef]);
+
   return (
     <div className="line_graph" style={{ width: "40%" }}>
-      <Scatter data={data} options={options} />
+      <Scatter ref={chartRef} data={data} options={options} />
     </div>
   );
 };
