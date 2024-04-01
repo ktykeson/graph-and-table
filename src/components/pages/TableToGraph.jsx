@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "chart.js/auto";
 import "../../styles/TableToGraph.css";
-import Table from "../Table";
+import Table from "../TTG_Table";
 import LineLegend from "../LineLegend";
 import Graph from "../Graph";
 import { calculateLineEquation, formatEquation } from "../../ultis/calculation";
@@ -11,7 +11,7 @@ const graphRange = 10;
 function TableToGraph() {
   const [dots, setDots] = useState([]);
   const [lines, setLines] = useState([]);
-  const [lineColors, setLineColors] = useState([]);
+  const [lineDetails, setLineDetails] = useState([]);
   const [placeDotsActive, setPlaceDotsActive] = useState(false);
   const [drawLineActive, setDrawLineActive] = useState(false);
   const [selectedDotsForLine, setSelectedDotsForLine] = useState([]);
@@ -30,6 +30,7 @@ function TableToGraph() {
   const [exerciseMode, setExerciseMode] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
   const [lineAnswer, setLineAnswer] = useState({ slope: 0, yIntercept: 0 });
+  const [chartRef, setChartRef] = useState(null);
 
   // Toggle exercise mode, making "place dots" and "draw lines" usable
   const handleExerciseModeToggle = () => {
@@ -170,11 +171,12 @@ function TableToGraph() {
           setLines={setLines}
           selectedDotsForLine={selectedDotsForLine}
           setSelectedDotsForLine={setSelectedDotsForLine}
-          lineColors={lineColors}
-          setLineColors={setLineColors}
+          lineDetails={lineDetails}
+          setLineDetails={setLineDetails}
+          setChartRef={setChartRef}
         />
         <div style={{ width: "20%" }}>
-          <LineLegend lines={lines} lineColors={lineColors} />
+          <LineLegend lineDetails={lineDetails} />
           <div className="arrow_box">
             <button
               onClick={() => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './Table.css';
+import '../styles/TTG_Table.css';
 
-const Table = ({ exerciseBoolean, onTableDataChange }) => {
+const TTG_Table = ({ exerciseBoolean, onTableDataChange }) => {
   const [columns, setColumns] = useState(7); // Number of columns dynamic
   const [data, setData] = useState({
     x: Array(7).fill(''),
@@ -112,4 +112,4 @@ const Table = ({ exerciseBoolean, onTableDataChange }) => {
   );
 };
 
-export default Table;
+export default TTG_Table;
