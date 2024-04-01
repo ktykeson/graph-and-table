@@ -77,9 +77,9 @@ function App() {
       chart.getDatasetMeta(datasetIndex).hidden = false; // Toggle visibility
       chart.update(); // Step 3: Update the chart
     };
-    console.log(chartRef.current);
-    if (exerciseMode) hideDots();
-    else displayDots();
+    if (chartRef)
+      if (exerciseMode) hideDots();
+      else displayDots();
   }, [chartRef, exerciseMode]);
 
   // Check if user's answers match the correct answers
