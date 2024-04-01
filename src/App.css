@@ -4,19 +4,23 @@
   gap: 2vh;
   align-items: center;
   flex-direction: column;
-  min-height: 100vh; /* Changed from height to min-height */
+  min-height: 100vh;
+  /* Changed from height to min-height */
   width: 100vw;
   background-color: #ffffff;
-  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-y: auto;
+  /* Allow vertical scrolling */
 }
 
 .graph_box {
   width: 100vw;
+  max-width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
-  flex-wrap: wrap; /* Allows content to wrap - adjust as needed */
+  flex-wrap: wrap;
+  /* Allows content to wrap - adjust as needed */
 }
 
 .equation_display {
@@ -51,9 +55,17 @@ button:focus {
 
 .arrow_box {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.arrow_box button {
+  width: 15vw;
+  padding: 10px 5px;
+  position: relative;
 }
 
 #up_arrow {
@@ -151,11 +163,30 @@ button:focus {
   margin: 10px 0;
   font-size: 0.9em;
   min-width: 400px;
-  width: 100%;
+  max-width: 35vw;
   border-radius: 5px 5px 0 0;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  color:#000000;
+  color: #000000;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -ms-border-radius: 5px 5px 0 0;
+  -o-border-radius: 5px 5px 0 0;
+}
+
+.table-container {
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.legend_box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
 }
 
 .table-style thead tr {
@@ -180,4 +211,25 @@ button:focus {
 
 .table-style tbody tr:last-of-type {
   border-bottom: 2px solid #009879;
+}
+
+input {
+  background-color: #ffffff;
+  color: black;
+  padding: 10px;
+  margin: 5px;
+  text-align: center;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+
+.btn_icon {
+  position: absolute;
+  width: 20px;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
 }

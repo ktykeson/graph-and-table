@@ -12,17 +12,37 @@ const Table = ({ tableData, exerciseMode, handleUserInput }) => {
     <div className="table-container">
       <table className="table-style">
         <thead>
-          <tr>
+          <tr
+            style={{
+              textAlign: "center",
+            }}
+          >
             {xHeaders.map((x, idx) => (
-              <th key={idx}>{`${x}`}</th>
+              <th
+                style={{
+                  textAlign: "center",
+                }}
+                key={idx}
+              >{`${x}`}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr
+            style={{
+              textAlign: "center",
+            }}
+          >
             {yValues.map((y, idx) =>
               exerciseMode ? (
-                <td key={idx}>
+                <td
+                  key={idx}
+                  style={{
+                    maxWidth: "20%",
+                    border: "none",
+                    textAlign: "center",
+                  }}
+                >
                   <input
                     type="number"
                     defaultValue={y}
@@ -34,7 +54,8 @@ const Table = ({ tableData, exerciseMode, handleUserInput }) => {
                       )
                     }
                     style={{
-                      width: "100%",
+                      width: "80%",
+                      maxWidth: "100%",
                       border: "none",
                       textAlign: "center",
                     }}

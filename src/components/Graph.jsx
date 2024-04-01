@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Scatter } from "react-chartjs-2";
 import { calculateLineEquation, formatEquation } from "../ultis/calculation";
 
@@ -14,6 +14,7 @@ const Graph = ({
   setSelectedDotsForLine,
   setChartRef,
 }) => {
+  const [blinkColor, setBlinkColor] = useState("black");
   // Function to generate random color
   const generateRandomColor = () => {
     let color = "#" + Math.floor(Math.random() * 16777215).toString(16);
@@ -32,7 +33,18 @@ const Graph = ({
       {
         label: "Dots",
         data: dots,
-        backgroundColor: "black",
+        backgroundColor: dots.map(
+          (dot) =>
+            selectedDotsForLine.some(
+              (selectedDot) =>
+                selectedDot.x === dot.x && selectedDot.y === dot.y
+            )
+              ? "red" // Always yellow if the dot is part of selectedDotsForLine
+              : drawLineActive
+              ? blinkColor // Only apply blinking effect if drawLineActive is true and the dot is not part of selectedDotsForLine
+              : "black" // Default color when drawLineActive is false
+        ),
+
         pointRadius: 5,
         animation: false,
       },
@@ -219,6 +231,19 @@ const Graph = ({
       setChartRef(null);
     };
   }, [setChartRef]);
+  // Blinking effect logic
+  useEffect(() => {
+    let blinkInterval;
+    if (drawLineActive) {
+      blinkInterval = setInterval(() => {
+        setBlinkColor((prevColor) =>
+          prevColor === "yellow" ? "black" : "yellow"
+        );
+      }, 500); // Adjust the interval as needed
+    }
+
+    return () => clearInterval(blinkInterval); // Cleanup on unmount or when drawLineActive changes
+  }, [drawLineActive]);
 
   return (
     <div className="line_graph" style={{ width: "40%" }}>
