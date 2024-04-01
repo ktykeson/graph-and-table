@@ -37,8 +37,8 @@ function TableToGraph() {
       // This means we're about to disable exercise mode, i.e., submit exercise
       handleSubmitExercise(lineDetails);
     } else {
-      const xArray = tablesData[0].data.map((point) => point.x);
-      const yArray = tablesData[0].data.map((point) => point.y);
+      const xArray = tablesData.data.map((point) => point.x);
+      const yArray = tablesData.data.map((point) => point.y);
       setXyArrays({ xArray, yArray });
       console.log("Saved X Array:", xArray);
       console.log("Saved Y Array:", yArray);
@@ -123,14 +123,23 @@ function TableToGraph() {
     }
 
     // Assuming 'dots' contains all dots placed by the user and 'xyArrays' contains the correct dots
+    console.log(xyArrays);
+    console.log(dots);
     if (dots.length < xyArrays.xArray.length) {
       pointsMatch = false; // There are less dots placed than needed
       console.log("Not enough dots placed.");
     } else {
       for (let i = 0; i < xyArrays.xArray.length; i++) {
-        const pointMatch = dots.find(
-          (dot) => dot.x === xyArrays.xArray[i] && dot.y === xyArrays.yArray[i]
-        );
+        const pointMatch = dots.find((dot) => {
+          const isMatch =
+            parseInt(dot.x, 10) === parseInt(xyArrays.xArray[i], 10) &&
+            parseInt(dot.y, 10) === parseInt(xyArrays.yArray[i], 10);
+          console.log(
+            `Checking dot: x: ${dot.x}, y: ${dot.y}, isMatch: ${isMatch}`
+          );
+          return isMatch;
+        });
+
         if (!pointMatch) {
           pointsMatch = false;
           console.log(
