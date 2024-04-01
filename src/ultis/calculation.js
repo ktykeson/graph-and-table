@@ -10,17 +10,38 @@ export const generateTableDataForLine = (line, graphRange) => {
   const { slope, yIntercept } = calculateLineEquation(line[0], line[1]);
   let tableData = [];
   let pointsFound = 0;
-  // Start searching from x = -graphRange to x = graphRange
-  for (let x = -graphRange; pointsFound < 7 && x <= graphRange; x++) {
+  let x = 0;
+
+  // Function to check and add points if they meet the criteria
+  const checkAndAddPoint = (x) => {
     let y = slope * x + yIntercept;
-    // Adjust the condition to try to include more points
-    if (Math.round(y) === y) {
-      // Check if y is an integer
-      tableData.push({ x, y });
+    // Check for whole number y values with a margin for floating-point issues
+    if (Math.abs(Math.round(y) - y) < 0.0001) {
+      tableData.push({ x, y: Math.round(y) });
       pointsFound++;
     }
+  };
+
+  // First check for x = 0 explicitly to avoid duplication in the loop
+  checkAndAddPoint(0);
+
+  // Continue searching outwards from 0 until enough points are found or the range is exceeded
+  while (pointsFound < 7 && x <= graphRange) {
+    x++;
+    // Check positive direction
+    if (x <= graphRange) {
+      checkAndAddPoint(x);
+      if (pointsFound >= 7) break; // Exit early if 7 points are found
+    }
+    // Check negative direction
+    if (-x >= -graphRange) {
+      checkAndAddPoint(-x);
+    }
   }
-  // If not enough whole number points are found, consider extending the search or altering criteria
+
+  // Sort the tableData array from lowest to highest x values
+  tableData.sort((a, b) => a.x - b.x);
+
   return tableData;
 };
 
