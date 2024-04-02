@@ -1,10 +1,15 @@
-const Popup = ({ message, confirm }) => {
+const Popup = ({ message, confirm, tryagain }) => {
 	return (
 		<div className="dialog_box">
 			<h2 className="dialog_message">{message}</h2>
-			<button onClick={confirm} className="dialog_confirmation" type="button">
-				OK
-			</button>
+			<div className="dialog_button_container">
+				<button onClick={confirm} className="dialog_confirmation" type="button">
+				Reset
+				</button>
+				<button onClick={tryagain} className="dialog_confirmation" type="button">
+				Try Again
+				</button>
+			</div>
 		</div>
 	);
 };

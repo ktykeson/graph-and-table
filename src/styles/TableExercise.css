@@ -61,3 +61,48 @@
   color: #333; /* Text color for buttons */
   border: 1px solid #ccc; /* Slight border for definition */
 }
+
+.selected {
+  background-color: #f0f0f0; /* Or any other visual cue */
+}
+
+.dialog_box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  border-radius: 20px;
+  width: 20vw;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  border: 1px solid black;
+}
+
+.dialog_message {
+  color: rgb(0, 0, 0);
+  font-weight: 100;
+}
+
+.dialog_confirmation {
+  background-color: green !important;
+  color: rgb(245, 245, 245) !important;
+}
+
+.dialog_button_container {
+  display: flex;
+  justify-content: center; /* Align buttons horizontally at the center */
+  gap: 10px; /* Optional: Adds space between the buttons */
+  color: white;
+}

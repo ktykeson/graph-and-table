@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "chart.js/auto";
 import "../../styles/TableToGraph.css";
-import Table from "../TTG_Table";
 import LineLegend from "../LineLegend";
 import Graph from "../Graph";
 import { calculateLineEquation, formatEquation } from "../../ultis/calculation";
+import TTG_Table from "../TTG_Table";
 
 const graphRange = 10;
 
 function TableToGraph() {
   const [dots, setDots] = useState([]);
+  const [lines, setLines] = useState([]);
   const [lineDetails, setLineDetails] = useState([]);
   const [placeDotsActive, setPlaceDotsActive] = useState(false);
   const [drawLineActive, setDrawLineActive] = useState(false);
@@ -31,14 +32,14 @@ function TableToGraph() {
   const [lineAnswer, setLineAnswer] = useState({ slope: 0, yIntercept: 0 });
   const [chartRef, setChartRef] = useState(null);
 
-  // Toggle exercise mode, making "place dots" and "draw lineDetails" usable
-  const handleExerciseModeToggle = (tablesData, lineDetails) => {
+  // Toggle exercise mode, making "place dots" and "draw lines" usable
+  const handleExerciseModeToggle = () => {
     if (exerciseMode) {
       // This means we're about to disable exercise mode, i.e., submit exercise
-      handleSubmitExercise(lineDetails);
+      handleSubmitExercise();
     } else {
-      const xArray = tablesData.data.map((point) => point.x);
-      const yArray = tablesData.data.map((point) => point.y);
+      const xArray = tablesData[0].data.map((point) => point.x);
+      const yArray = tablesData[0].data.map((point) => point.y);
       setXyArrays({ xArray, yArray });
       console.log("Saved X Array:", xArray);
       console.log("Saved Y Array:", yArray);
@@ -63,31 +64,28 @@ function TableToGraph() {
     setExerciseMode(!exerciseMode);
   };
 
-  const handleTableDataChange = (newData) => {
+  const handleTableDataChange = (newData, tableIndex) => {
     // Create a new array to avoid mutating state directly
-    console.log(newData);
     const updatedTablesData = [...tablesData];
 
     // Check if the table exists and update its data
-    if (updatedTablesData) {
-      updatedTablesData.data = newData.map((point, i) => ({
-        x: point.x,
-        y: point.y,
+    if (updatedTablesData[tableIndex]) {
+      updatedTablesData[tableIndex].data = newData.map((x, i) => ({
+        x: x,
+        y: newData.y[i],
       }));
     }
-    console.log("----------");
-    console.log(updatedTablesData);
-    console.log("----------");
+
     setTablesData(updatedTablesData);
   };
 
-  const handleSubmitExercise = (lineDetails) => {
+  const handleSubmitExercise = () => {
     let lineMatch = false;
     let pointsMatch = true; // Default to true, check each point to possibly set to false
-    console.log(lineDetails);
+
     // Check if there's at least one line drawn by the user
-    if (lineDetails.length > 0) {
-      const userLine = lineDetails[0].line; // Assuming the first drawn line is what we want to check
+    if (lines.length > 0) {
+      const userLine = lines[0]; // Assuming the first drawn line is what we want to check
       const { slope, yIntercept } = calculateLineEquation(
         userLine[0],
         userLine[1]
@@ -123,23 +121,14 @@ function TableToGraph() {
     }
 
     // Assuming 'dots' contains all dots placed by the user and 'xyArrays' contains the correct dots
-    console.log(xyArrays);
-    console.log(dots);
     if (dots.length < xyArrays.xArray.length) {
       pointsMatch = false; // There are less dots placed than needed
       console.log("Not enough dots placed.");
     } else {
       for (let i = 0; i < xyArrays.xArray.length; i++) {
-        const pointMatch = dots.find((dot) => {
-          const isMatch =
-            parseInt(dot.x, 10) === parseInt(xyArrays.xArray[i], 10) &&
-            parseInt(dot.y, 10) === parseInt(xyArrays.yArray[i], 10);
-          console.log(
-            `Checking dot: x: ${dot.x}, y: ${dot.y}, isMatch: ${isMatch}`
-          );
-          return isMatch;
-        });
-
+        const pointMatch = dots.find(
+          (dot) => dot.x === xyArrays.xArray[i] && dot.y === xyArrays.yArray[i]
+        );
         if (!pointMatch) {
           pointsMatch = false;
           console.log(
@@ -168,9 +157,6 @@ function TableToGraph() {
       setDrawLineActive(false);
     }
   }, [exerciseMode]);
-  useEffect(() => {
-    console.log(lineDetails);
-  }, [lineDetails]);
 
   return (
     <div className="TableToGraph">
@@ -181,6 +167,8 @@ function TableToGraph() {
           drawLineActive={drawLineActive}
           dots={dots}
           setDots={setDots}
+          lines={lines}
+          setLines={setLines}
           selectedDotsForLine={selectedDotsForLine}
           setSelectedDotsForLine={setSelectedDotsForLine}
           lineDetails={lineDetails}
@@ -220,9 +208,7 @@ function TableToGraph() {
               {drawLineActive ? "Drawing Line..." : "Draw Line"}
             </button>
             <br />
-            <button
-              onClick={() => handleExerciseModeToggle(tablesData, lineDetails)}
-            >
+            <button onClick={handleExerciseModeToggle}>
               {exerciseMode ? "Submit Exercise" : "Make Exercise"}
             </button>
             <br />
@@ -232,11 +218,11 @@ function TableToGraph() {
       <div>
         {tablesData.length > 0 &&
           tablesData.map((table, index) => (
-            <Table
+            <TTG_Table
               exerciseBoolean={exerciseMode}
               key={index}
               tableData={tablesData[0].data}
-              onTableDataChange={(newData) => handleTableDataChange(newData)}
+              onTableDataChange={(newData) => handleTableDataChange(newData, 1)}
             />
           ))}
       </div>
