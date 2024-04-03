@@ -17,6 +17,7 @@ function TableExercise() {
   const handleInputChange = (axis, index, value) => {
     const newData = { ...data, [axis]: [...data[axis]] };
     newData[axis][index] = value;
+    console.log(newData);
     setData(newData);
 
     console.log(`Updating ${axis}[${index}] to ${value}`);
@@ -37,32 +38,50 @@ function TableExercise() {
     }
 
     // Adjust data to reflect cleared inputs for both x and y
+    let newArray = structuredClone(data);
+    console.log(clearedIndices);
     setData((prevData) => {
       let newData = { ...prevData };
+
+      let newClearedIndex = [];
       clearedIndices.forEach((clearedIndex) => {
+        console.log("why run");
+        console.log(newArray);
         const [axis, index] = clearedIndex.split("-");
+        let valueCopy = newArray[axis][Number(index)];
+        let thingToPush = { axis, index, number: valueCopy };
+        console.log(thingToPush);
+        newClearedIndex.push(thingToPush);
         newData[axis][Number(index)] = ""; // Clear the value
       });
+
       return newData;
     });
-
+    let newClearedIndex = [];
+    clearedIndices.forEach((clearedIndex) => {
+      const [axis, index] = clearedIndex.split("-");
+      let valueCopy = newArray[axis][Number(index)];
+      let thingToPush = { axis, index, number: valueCopy };
+      console.log(thingToPush);
+      newClearedIndex.push(thingToPush);
+    });
+    setHiddenIndices(newClearedIndex);
     // Store cleared indices in a way that's compatible with the checking function
-    setHiddenIndices(
-      [...clearedIndices].map((ci) => {
-        const [, index] = ci.split("-");
-        return Number(index);
-      })
-    );
+
     setExerciseMode(true);
   };
 
-  const handleCheck = (hiddenIndices, data) => {
+  const handleCheck = () => {
     let isCorrect = true;
     console.log(hiddenIndices);
     console.log(data);
-    hiddenIndices.forEach((index) => {
-      console.log(index);
-      if (data.y[index] !== data.x[index]) {
+    hiddenIndices.forEach((item) => {
+      console.log(item.number);
+      console.log(data.y[item.index]);
+      if (
+        (item.axis === "y" && data.y[item.index] !== item.number) ||
+        (item.axis === "x" && data.x[item.index] !== item.number)
+      ) {
         isCorrect = false;
       }
     });
@@ -157,7 +176,13 @@ function TableExercise() {
                   onChange={(e) =>
                     handleInputChange("x", index, e.target.value)
                   }
-                  disabled={exerciseMode && !hiddenIndices.includes(index)}
+                  disabled={
+                    exerciseMode &&
+                    !hiddenIndices.some(
+                      (item) =>
+                        item.axis === "x" && parseInt(item.index) === index
+                    )
+                  }
                 />
               </td>
             ))}
@@ -172,7 +197,13 @@ function TableExercise() {
                   onChange={(e) =>
                     handleInputChange("y", index, e.target.value)
                   }
-                  disabled={exerciseMode && !hiddenIndices.includes(index)}
+                  disabled={
+                    exerciseMode &&
+                    !hiddenIndices.some(
+                      (item) =>
+                        item.axis === "y" && parseInt(item.index) === index
+                    )
+                  }
                 />
               </td>
             ))}
@@ -199,10 +230,7 @@ function TableExercise() {
           Make Exercise
         </button>
       ) : (
-        <button
-          className={styles.addButton}
-          onClick={() => handleCheck(hiddenIndices, data)}
-        >
+        <button className={styles.addButton} onClick={() => handleCheck()}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
