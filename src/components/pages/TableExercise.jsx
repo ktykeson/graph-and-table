@@ -13,6 +13,7 @@ function TableExercise() {
   const [exerciseMode, setExerciseMode] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState(true);
+  const [correct, setCorrect] = useState(true);
 
   const handleInputChange = (axis, index, value) => {
     const newData = { ...data, [axis]: [...data[axis]] };
@@ -87,9 +88,11 @@ function TableExercise() {
     });
 
     if (isCorrect) {
-      setPopupMessage("Correct, try again?");
+      setPopupMessage("Correct!");
+      setCorrect(true);
     } else {
       setPopupMessage("Incorrect, try again.");
+      setCorrect(false);
     }
     setShowPopup(true);
   };
@@ -124,6 +127,7 @@ function TableExercise() {
           message={popupMessage}
           confirm={confirmAnswer}
           tryagain={tryAgain}
+          correct={correct}
         />
       )}
       {!exerciseMode && (
