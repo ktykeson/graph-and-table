@@ -56,9 +56,12 @@ function TableExercise() {
     setExerciseMode(true);
   };
 
-  const handleCheck = () => {
+  const handleCheck = (hiddenIndices, data) => {
     let isCorrect = true;
+    console.log(hiddenIndices);
+    console.log(data);
     hiddenIndices.forEach((index) => {
+      console.log(index);
       if (data.y[index] !== data.x[index]) {
         isCorrect = false;
       }
@@ -196,7 +199,10 @@ function TableExercise() {
           Make Exercise
         </button>
       ) : (
-        <button className={styles.addButton} onClick={handleCheck}>
+        <button
+          className={styles.addButton}
+          onClick={() => handleCheck(hiddenIndices, data)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
