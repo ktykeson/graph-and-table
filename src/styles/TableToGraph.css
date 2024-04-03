@@ -1,13 +1,15 @@
 .App {
   display: flex;
-  justify-content: center;
   gap: 2vh;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
-  min-height: 100vh; /* Changed from height to min-height */
+  min-height: 100vh;
+  /* Changed from height to min-height */
   width: 100vw;
   background-color: #ffffff;
-  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-y: auto;
+  /* Allow vertical scrolling */
 }
 
 .graph_box {
@@ -16,7 +18,8 @@
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
-  flex-wrap: wrap; /* Allows content to wrap - adjust as needed */
+  flex-wrap: wrap;
+  /* Allows content to wrap - adjust as needed */
 }
 
 .equation_display {
@@ -34,7 +37,7 @@
 button {
   margin: 5px;
   padding: 10px;
-  background-color: rgb(29, 119, 255) ;
+  background-color: rgb(29, 119, 255);
   color: white;
   border: none;
   border-radius: 5px;
@@ -123,7 +126,7 @@ button:focus {
   border-radius: 5px 5px 0 0;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  color:#000000;
+  color: #000000;
 }
 
 .table-style thead tr {

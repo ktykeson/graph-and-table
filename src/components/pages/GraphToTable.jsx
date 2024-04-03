@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "chart.js/auto";
 import "chartjs-plugin-datalabels";
-import "../../styles/GraphToTable.css";
+import styles from "../../styles/GraphToTable.module.css";
 import { useEffect } from "react";
 import Table from "../Table";
 import LineLegend from "../LineLegend";
@@ -149,8 +149,8 @@ function GraphToTable() {
   }, [tablesData]); // Re-run this effect only if tablesData changes
 
   return (
-    <div className="GraphToTable">
-      <div className="graph_box">
+    <div className={styles.GraphToTable}>
+      <div className={styles.graphBox}>
         <Graph
           graphRange={graphRange}
           placeDotsActive={placeDotsActive}
@@ -163,15 +163,7 @@ function GraphToTable() {
           setLineDetails={setLineDetails}
           setChartRef={setChartRef}
         />
-        <div
-          style={{
-            width: "40%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <div className={styles.centerContent}>
           {tablesData.length > 0 ? (
             tablesData.map((table, index) => (
               <Table
@@ -179,6 +171,7 @@ function GraphToTable() {
                 tableData={table}
                 exerciseMode={exerciseMode}
                 handleUserInput={handleUserInput}
+                styles={styles}
               />
             ))
           ) : (
@@ -187,20 +180,12 @@ function GraphToTable() {
         </div>
       </div>
       {/* Use the renderTable function to render tables for all lines */}
-      <div
-        style={{
-          width: "80%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "20px",
-        }}
-      >
-        <div className="legend_box">
+      <div className={styles.flexCenter}>
+        <div className={styles.legendBox}>
           <LineLegend lineDetails={lineDetails} />
         </div>
 
-        <div className="arrow_box">
+        <div className={styles.arrowBox}>
           <button onClick={togglePlaceDots} type="button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +193,7 @@ function GraphToTable() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="btn_icon"
+              className={styles.btnIcon}
             >
               <path
                 strokeLinecap="round"
@@ -234,7 +219,7 @@ function GraphToTable() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="btn_icon"
+              className={styles.btnIcon}
             >
               <path
                 strokeLinecap="round"
@@ -246,7 +231,7 @@ function GraphToTable() {
             {drawLineActive ? "Drawing Line..." : "Draw Line"}
           </button>
         </div>
-        <div className="arrow_box">
+        <div className={styles.arrowBox}>
           <button
             onClick={handleMakeTables}
             type="button"
@@ -261,7 +246,7 @@ function GraphToTable() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="btn_icon"
+              className={styles.btnIcon}
             >
               <path
                 strokeLinecap="round"
@@ -285,7 +270,7 @@ function GraphToTable() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="btn_icon"
+              className={styles.btnIcon}
             >
               <path
                 strokeLinecap="round"

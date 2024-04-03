@@ -1,6 +1,6 @@
 import React from "react";
 
-const Table = ({ tableData, exerciseMode, handleUserInput }) => {
+const Table = ({ tableData, exerciseMode, handleUserInput, styles }) => {
   if (!tableData || !tableData.data || tableData.data.length === 0) {
     return <p>No table data available. Draw lines and click "Make Tables".</p>;
   }
@@ -9,30 +9,19 @@ const Table = ({ tableData, exerciseMode, handleUserInput }) => {
   const yValues = tableData.data.map((point) => point.y);
 
   return (
-    <div className="table-container">
-      <table className="table-style">
+    <div className={styles.tableContainer}>
+      <table className={styles.tableStyle}>
         <thead>
-          <tr
-            style={{
-              textAlign: "center",
-            }}
-          >
+          <tr className={styles.centerText}>
             {xHeaders.map((x, idx) => (
-              <th
-                style={{
-                  textAlign: "center",
-                }}
-                key={idx}
-              >{`${x}`}</th>
+              <th key={idx} className={styles.centerText}>
+                {x}
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          <tr
-            style={{
-              textAlign: "center",
-            }}
-          >
+          <tr className={styles.centerText}>
             {yValues.map((y, idx) =>
               exerciseMode ? (
                 <td
@@ -40,8 +29,8 @@ const Table = ({ tableData, exerciseMode, handleUserInput }) => {
                   style={{
                     maxWidth: "20%",
                     border: "none",
-                    textAlign: "center",
                   }}
+                  className={styles.centerText}
                 >
                   <input
                     type="number"
@@ -53,16 +42,13 @@ const Table = ({ tableData, exerciseMode, handleUserInput }) => {
                         e.target.value
                       )
                     }
-                    style={{
-                      width: "80%",
-                      maxWidth: "100%",
-                      border: "none",
-                      textAlign: "center",
-                    }}
+                    className={styles.inputStyle}
                   />
                 </td>
               ) : (
-                <td key={idx}>{y}</td>
+                <td key={idx} className={styles.centerText}>
+                  {y}
+                </td>
               )
             )}
           </tr>

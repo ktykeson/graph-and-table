@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import '../styles/TTG_Table.css';
+import React, { useState } from "react";
+import styles from "../styles/TTG_Table.module.css";
 
 const TTG_Table = ({ exerciseBoolean, onTableDataChange }) => {
   const [columns, setColumns] = useState(7); // Number of columns dynamic
   const [data, setData] = useState({
-    x: Array(7).fill(''),
-    y: Array(7).fill('')
+    x: Array(7).fill(""),
+    y: Array(7).fill(""),
   });
   const [exerciseMode, setExerciseMode] = useState(false);
   const [hiddenIndices, setHiddenIndices] = useState([]);
@@ -28,11 +28,11 @@ const TTG_Table = ({ exerciseBoolean, onTableDataChange }) => {
       indices.add(Math.floor(Math.random() * columns));
     }
 
-    setData(prevData => {
+    setData((prevData) => {
       const newData = { ...prevData };
-      indices.forEach(index => {
-        if (newData.y[index] !== '') {
-          newData.y[index] = '';
+      indices.forEach((index) => {
+        if (newData.y[index] !== "") {
+          newData.y[index] = "";
         }
       });
       return newData;
@@ -43,40 +43,44 @@ const TTG_Table = ({ exerciseBoolean, onTableDataChange }) => {
   };
 
   const addColumn = () => {
-    setData(prevData => ({
-      x: [...prevData.x, ''],
-      y: [...prevData.y, '']
+    setData((prevData) => ({
+      x: [...prevData.x, ""],
+      y: [...prevData.y, ""],
     }));
     setColumns(columns + 1);
   };
 
   const removeColumn = () => {
-    setData(prevData => ({
+    setData((prevData) => ({
       x: prevData.x.slice(0, -1),
-      y: prevData.y.slice(0, -1)
+      y: prevData.y.slice(0, -1),
     }));
     setColumns(columns - 1);
   };
 
   return (
-    <div className="table-container">
-      <div className="column-modification-buttons">
-        <button onClick={addColumn} 
-        disabled={exerciseBoolean}
-        style={{ 
-          backgroundColor: exerciseBoolean ? '#ccc' : 'default',
-          cursor: exerciseBoolean ? 'default' : 'pointer'
-        }}
-        >Add Column</button>
-        <button onClick={removeColumn} 
-        disabled={exerciseBoolean}
-        style={{ 
-          backgroundColor: exerciseBoolean ? '#ccc' : 'default',
-          cursor: exerciseBoolean ? 'default' : 'pointer'
-        }}
-        >Remove Column</button>
+    <div className={styles.tableContainer}>
+      <div className={styles.columnModificationButtons}>
+        <button
+          onClick={addColumn}
+          disabled={exerciseBoolean}
+          className={`${exerciseBoolean ? styles.disabled : ""} ${
+            styles.addButton
+          }`}
+        >
+          Add Column
+        </button>
+        <button
+          onClick={removeColumn}
+          disabled={exerciseBoolean}
+          className={`${exerciseBoolean ? styles.disabled : ""} ${
+            styles.removeButton
+          }`}
+        >
+          Remove Column
+        </button>
       </div>
-      <table className="table-style">
+      <table className={styles.tableStyle}>
         <thead>
           <tr>
             {data.x.map((value, index) => (
@@ -84,9 +88,11 @@ const TTG_Table = ({ exerciseBoolean, onTableDataChange }) => {
                 <input
                   type="text"
                   value={value}
-                  onChange={(e) => handleInputChange('x', index, e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("x", index, e.target.value)
+                  }
                   disabled={exerciseBoolean}
-                  style={{ width: "100%", textAlign: "center" }}
+                  className={styles.inputStyle}
                 />
               </th>
             ))}
@@ -99,9 +105,11 @@ const TTG_Table = ({ exerciseBoolean, onTableDataChange }) => {
                 <input
                   type="text"
                   value={value}
-                  onChange={(e) => handleInputChange('y', index, e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("y", index, e.target.value)
+                  }
                   disabled={exerciseBoolean}
-                  style={{ width: "100%", textAlign: "center" }}
+                  className={styles.inputStyle}
                 />
               </td>
             ))}

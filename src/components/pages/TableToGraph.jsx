@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "chart.js/auto";
-import "../../styles/TableToGraph.css";
+import styles from "../../styles/TableToGraph.module.css";
 import LineLegend from "../LineLegend";
 import Graph from "../Graph";
 import { calculateLineEquation, formatEquation } from "../../ultis/calculation";
@@ -159,8 +159,8 @@ function TableToGraph() {
   }, [exerciseMode]);
 
   return (
-    <div className="TableToGraph">
-      <div className="graph_box">
+    <div className={styles.TableToGraph}>
+      <div className={styles.graph_box}>
         <Graph
           graphRange={graphRange}
           placeDotsActive={placeDotsActive}
@@ -177,18 +177,16 @@ function TableToGraph() {
         />
         <div style={{ width: "20%" }}>
           <LineLegend lineDetails={lineDetails} />
-          <div className="arrow_box">
+          <div className={styles.arrow_box}>
             <button
               onClick={() => {
                 setPlaceDotsActive(!placeDotsActive);
                 setDrawLineActive(false);
               }}
               disabled={!exerciseMode}
-              type="button"
-              style={{
-                backgroundColor: exerciseMode ? "rgb(29, 119, 255)" : "#ccc",
-                cursor: exerciseMode ? "pointer" : "default",
-              }}
+              className={
+                exerciseMode ? styles.activeButton : styles.inactiveButton
+              }
             >
               {placeDotsActive ? "Placing Dots..." : "Place Dots"}
             </button>
@@ -200,15 +198,17 @@ function TableToGraph() {
               }}
               type="button"
               disabled={!exerciseMode}
-              style={{
-                backgroundColor: exerciseMode ? "rgb(29, 119, 255)" : "#ccc",
-                cursor: exerciseMode ? "pointer" : "default",
-              }}
+              className={
+                exerciseMode ? styles.activeButton : styles.inactiveButton
+              }
             >
               {drawLineActive ? "Drawing Line..." : "Draw Line"}
             </button>
             <br />
-            <button onClick={handleExerciseModeToggle}>
+            <button
+              onClick={handleExerciseModeToggle}
+              className={styles.toggleButton}
+            >
               {exerciseMode ? "Submit Exercise" : "Make Exercise"}
             </button>
             <br />

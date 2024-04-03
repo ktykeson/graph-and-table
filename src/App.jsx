@@ -5,6 +5,7 @@ import GraphToTable from "./components/pages/GraphToTable";
 import TableExercise from "./components/pages/TableExercise";
 import TableToGraph from "./components/pages/TableToGraph";
 import Home from "./components/pages/Home";
+import "./styles/globals.css";
 
 const App = () => {
   return (

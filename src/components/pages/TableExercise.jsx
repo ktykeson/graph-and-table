@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/TableExercise.css";
+import styles from "../../styles/TableExercise.module.css";
 import Popup from "../../Popup";
 
 // Define the number of columns
@@ -12,7 +12,7 @@ function TableExercise() {
   const [hiddenIndices, setHiddenIndices] = useState([]);
   const [exerciseMode, setExerciseMode] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-	const [popupMessage, setPopupMessage] = useState(true);
+  const [popupMessage, setPopupMessage] = useState(true);
 
   const handleInputChange = (axis, index, value) => {
     const newData = { ...data, [axis]: [...data[axis]] };
@@ -25,13 +25,13 @@ function TableExercise() {
   const handleMakeExercise = () => {
     let totalClearCount = Math.floor(Math.random() * 3) + 3; // Random number between 3 and 5
     let clearedIndices = new Set();
-    
+
     // Ensure unique indices are selected until the desired totalClearCount is met
     while (clearedIndices.size < totalClearCount) {
       // Randomly decide to clear from x or y
-      const axis = Math.random() < 0.5 ? 'x' : 'y';
+      const axis = Math.random() < 0.5 ? "x" : "y";
       const index = Math.floor(Math.random() * data.x.length);
-      
+
       // Construct a unique identifier for the index and axis to avoid duplicates
       clearedIndices.add(`${axis}-${index}`);
     }
@@ -40,17 +40,19 @@ function TableExercise() {
     setData((prevData) => {
       let newData = { ...prevData };
       clearedIndices.forEach((clearedIndex) => {
-        const [axis, index] = clearedIndex.split('-');
+        const [axis, index] = clearedIndex.split("-");
         newData[axis][Number(index)] = ""; // Clear the value
       });
       return newData;
     });
 
     // Store cleared indices in a way that's compatible with the checking function
-    setHiddenIndices([...clearedIndices].map(ci => {
-      const [, index] = ci.split('-');
-      return Number(index);
-    }));
+    setHiddenIndices(
+      [...clearedIndices].map((ci) => {
+        const [, index] = ci.split("-");
+        return Number(index);
+      })
+    );
     setExerciseMode(true);
   };
 
@@ -62,22 +64,22 @@ function TableExercise() {
       }
     });
 
-    if (isCorrect){
+    if (isCorrect) {
       setPopupMessage("Correct, try again?");
-		} else {
-			setPopupMessage("Incorrect, try again.");
-		}
+    } else {
+      setPopupMessage("Incorrect, try again.");
+    }
     setShowPopup(true);
   };
 
   const confirmAnswer = () => {
-		setShowPopup(false);
-		window.location.reload();
-	};
+    setShowPopup(false);
+    window.location.reload();
+  };
 
   const tryAgain = () => {
-		setShowPopup(false);
-	};
+    setShowPopup(false);
+  };
 
   const addColumn = () => {
     setData((prevData) => ({
@@ -94,10 +96,16 @@ function TableExercise() {
   };
 
   return (
-    <div className="exercise-table">
-        {showPopup && <Popup message={popupMessage} confirm={confirmAnswer} tryagain={tryAgain}/>}
+    <div className={styles.exerciseTable}>
+      {showPopup && (
+        <Popup
+          message={popupMessage}
+          confirm={confirmAnswer}
+          tryagain={tryAgain}
+        />
+      )}
       {!exerciseMode && (
-        <div className="column-modification-buttons">
+        <div className={styles.columnModificationButtons}>
           <button onClick={addColumn}>Add Column</button>
           <button onClick={removeColumn}>Remove Column</button>
         </div>

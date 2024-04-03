@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+
+.submit_button {
+    width: 100%;
+    color: white;
+    background-color: green !important;
+}
+
+.dialog_box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    background-color: #333;
+    border-radius: 20px;
+    width: 20vw;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.dialog_message {
+    color: white;
+    font-weight: 100;
+}
+
+.dialog_confirmation {
+    background-color: green !important;
+}

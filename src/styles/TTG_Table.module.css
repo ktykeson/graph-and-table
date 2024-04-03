@@ -1,0 +1,146 @@
+.tableContainer {
+  position: relative;
+  /* This makes it the reference point for absolute positioned children */
+}
+
+.button-container {
+  position: absolute;
+  /* Adjust based on your layout, might need relative positioning on the parent */
+  top: 10px;
+  /* Adjust the distance from the top */
+  right: 10px;
+  /* Adjust the distance from the right */
+  display: flex;
+  gap: 10px;
+}
+
+.exerciseTable {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.exerciseTable table {
+  border-collapse: separate;
+  /* Adjusted to 'separate' for individual cell borders */
+  border-spacing: 2px;
+  /* Creates spacing between cells for black lines */
+  margin-bottom: 20px;
+}
+
+.exerciseTable th,
+.exerciseTable td {
+  border: 1px solid #000;
+  /* Black border for contrast and separation */
+  min-width: 50px;
+  /* Adjust as needed */
+  height: 50px;
+  /* Adjust as needed */
+  background-color: #ffffff;
+  /* White background for cells */
+  text-align: center;
+  color: #333;
+  /* Darker text for better readability */
+}
+
+.exerciseTable th {
+  background-color: #f0f0f0;
+  /* Light grey for header */
+  color: #333;
+  /* Ensuring text is readable */
+}
+
+.exerciseTable input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-align: center;
+  color: #333;
+  /* Text color for inputs */
+  background-color: #fff;
+  /* Keeping input background white for consistency */
+}
+
+.exerciseTable input:focus {
+  outline: none;
+  background-color: #e6e6e6;
+  /* Light grey background for focus, for a subtle hint */
+}
+
+.exerciseTable button {
+  cursor: pointer;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #e7e7e7;
+  /* Light grey background for buttons */
+  color: #333;
+  /* Text color for buttons */
+  border: 1px solid #ccc;
+  /* Slight border for definition */
+}
+
+.addButton,
+.removeButton {
+  cursor: pointer;
+}
+
+.addButton.disabled,
+.removeButton.disabled {
+  background-color: #ccc;
+  cursor: default;
+}
+
+.tableStyle {
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  max-width: 90vw;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  color: #000000;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -ms-border-radius: 5px 5px 0 0;
+  -o-border-radius: 5px 5px 0 0;
+}
+
+.tableStyle thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.tableStyle th,
+.tableStyle td {
+  padding: 12px 15px;
+}
+
+.tableStyle tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.tableStyle tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.tableStyle tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.inputStyle {
+  width: 80%;
+  max-width: 100%;
+  border: 1px solid;
+  text-align: center;
+  background-color: #ffffff;
+  color: black;
+  padding: 10px;
+  margin: 5px;
+  text-align: center;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}

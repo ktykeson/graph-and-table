@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Scatter } from "react-chartjs-2";
 import { calculateLineEquation, formatEquation } from "../ultis/calculation";
-
+import styles from "../styles/GraphToTable.module.css";
 const Graph = ({
   graphRange,
   placeDotsActive,
@@ -246,7 +246,7 @@ const Graph = ({
   }, [drawLineActive]);
 
   return (
-    <div className="line_graph" style={{ width: "40%" }}>
+    <div className={styles.lineGraph}>
       <Scatter ref={chartRef} data={data} options={options} />
     </div>
   );

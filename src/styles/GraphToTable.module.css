@@ -12,7 +12,7 @@
   /* Allow vertical scrolling */
 }
 
-.graph_box {
+.graphBox {
   width: 100vw;
   max-width: 100%;
   display: flex;
@@ -49,11 +49,11 @@ button:focus {
   outline: none;
 }
 
-.line_graph {
+.lineGraph {
   width: 60% !important;
 }
 
-.arrow_box {
+.arrowBox {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,7 +62,7 @@ button:focus {
   margin-bottom: 20px;
 }
 
-.arrow_box button {
+.arrowBox button {
   width: 15vw;
   padding: 10px 5px;
   position: relative;
@@ -120,45 +120,7 @@ button:focus {
   color: white;
 }
 
-.submit_button {
-  width: 100%;
-  color: white;
-  background-color: green !important;
-}
-
-.dialog_box {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  background-color: #333;
-  border-radius: 20px;
-  width: 20vw;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  -ms-border-radius: 20px;
-  -o-border-radius: 20px;
-}
-
-.dialog_message {
-  color: white;
-  font-weight: 100;
-}
-
-.dialog_confirmation {
-  background-color: green !important;
-}
-
-.table-style {
+.tableStyle {
   border-collapse: collapse;
   margin: 10px 0;
   font-size: 0.9em;
@@ -174,14 +136,14 @@ button:focus {
   -o-border-radius: 5px 5px 0 0;
 }
 
-.table-container {
+.tableContainer {
   width: 40vw;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.legend_box {
+.legendBox {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -189,40 +151,31 @@ button:focus {
   gap: 20px;
 }
 
-.table-style thead tr {
+.tableStyle thead tr {
   background-color: #009879;
   color: #ffffff;
   text-align: left;
   font-weight: bold;
 }
 
-.table-style th,
-.table-style td {
+.tableStyle th,
+.tableStyle td {
   padding: 12px 15px;
 }
 
-.table-style tbody tr {
+.tableStyle tbody tr {
   border-bottom: 1px solid #dddddd;
 }
 
-.table-style tbody tr:nth-of-type(even) {
+.tableStyle tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
 
-.table-style tbody tr:last-of-type {
+.tableStyle tbody tr:last-of-type {
   border-bottom: 2px solid #009879;
 }
 
-input {
-  background-color: #ffffff;
-  color: black;
-  padding: 10px;
-  margin: 5px;
-  text-align: center;
-  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-}
-
-.btn_icon {
+.btnIcon {
   position: absolute;
   width: 20px;
   top: 50%;
@@ -232,4 +185,37 @@ input {
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   -o-transform: translateY(-50%);
+}
+
+.centerContent {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flexCenter {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.centerText {
+  text-align: center;
+}
+
+.inputStyle {
+  width: 80%;
+  max-width: 100%;
+  border: none;
+  text-align: center;
+  background-color: #ffffff;
+  color: black;
+  padding: 10px;
+  margin: 5px;
+  text-align: center;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
