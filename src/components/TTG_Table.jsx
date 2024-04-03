@@ -11,15 +11,19 @@ const TTG_Table = ({ exerciseBoolean, onTableDataChange }) => {
   const [hiddenIndices, setHiddenIndices] = useState([]);
 
   const handleInputChange = (axis, index, value) => {
-    const newData = { ...data, [axis]: [...data[axis]] };
-    newData[axis][index] = value;
-    setData(newData);
+    // First, update the specific value in the data based on axis, index, and value
+    const updatedData = { ...data };
+    updatedData[axis][index] = value; // Update the value in the respective axis array at the specified index
+    console.log(updatedData);
+    setData(updatedData);
+    // Now, construct the newData array of objects
+    const newData = updatedData.x.map((xValue, idx) => ({
+      x: xValue, // Value from the x array
+      y: updatedData.y[idx], // Corresponding value from the y array
+    }));
 
-    // Call the callback prop, converting data to the expected format
-    const tableData = newData.x.map((x, i) => ({ x: x, y: newData.y[i] }));
-    if (typeof onTableDataChange === "function") {
-      onTableDataChange(tableData);
-    }
+    console.log(newData); // Use console.log for debugging to print the tableData
+    onTableDataChange(newData); // Call the callback with the updated tableData
   };
 
   const handleMakeExercise = () => {
