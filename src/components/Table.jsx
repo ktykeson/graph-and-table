@@ -34,7 +34,7 @@ const Table = ({ tableData, exerciseMode, handleUserInput, styles }) => {
                 >
                   <input
                     type="number"
-                    defaultValue={y}
+                    defaultValue={''}
                     onChange={(e) =>
                       handleUserInput(
                         tableData.lineIndex - 1,
