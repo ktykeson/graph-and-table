@@ -10,7 +10,6 @@ const graphRange = 10;
 
 function TableToGraph() {
   const [dots, setDots] = useState([]);
-  const [lines, setLines] = useState([]);
   const [lineDetails, setLineDetails] = useState([]);
   const [placeDotsActive, setPlaceDotsActive] = useState(false);
   const [drawLineActive, setDrawLineActive] = useState(false);
@@ -87,8 +86,9 @@ function TableToGraph() {
     let pointsMatch = true; // Default to true, check each point to possibly set to false
 
     // Check if there's at least one line drawn by the user
-    if (lines.length > 0) {
-      const userLine = lines[0]; // Assuming the first drawn line is what we want to check
+    if (lineDetails.length > 0) {
+      console.log(lineDetails[0].line);
+      const userLine = lineDetails[0].line; // Assuming the first drawn line is what we want to check
       const { slope, yIntercept } = calculateLineEquation(
         userLine[0],
         userLine[1]
@@ -129,8 +129,9 @@ function TableToGraph() {
       console.log("Not enough dots placed.");
     } else {
       for (let i = 0; i < xyArrays.xArray.length; i++) {
+        console.log(dots);
         const pointMatch = dots.find(
-          (dot) => dot.x === xyArrays.xArray[i] && dot.y === xyArrays.yArray[i]
+          (dot) => dot.x == xyArrays.xArray[i] && dot.y == xyArrays.yArray[i]
         );
         if (!pointMatch) {
           pointsMatch = false;
@@ -181,8 +182,6 @@ function TableToGraph() {
           drawLineActive={drawLineActive}
           dots={dots}
           setDots={setDots}
-          lines={lines}
-          setLines={setLines}
           selectedDotsForLine={selectedDotsForLine}
           setSelectedDotsForLine={setSelectedDotsForLine}
           lineDetails={lineDetails}
