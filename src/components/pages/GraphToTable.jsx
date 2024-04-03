@@ -145,7 +145,6 @@ function GraphToTable() {
       const yValues = tableData.data.map((point) => point.y);
       return { x: xHeaders, y: yValues };
     });
-    setUserAnswers(answers);
   }, [tablesData]); // Re-run this effect only if tablesData changes
 
   return (
