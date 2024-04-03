@@ -16,10 +16,9 @@ const TTG_Table = ({ exerciseBoolean, onTableDataChange }) => {
     setData(newData);
 
     // Call the callback prop, converting data to the expected format
-    const tableData = newData.x.map((x, i) => ({ x: x, y: newData.y[i] }));
-    if (typeof onTableDataChange === "function") {
-      onTableDataChange(tableData);
-    }
+    const tableData = [];
+    console.error(tableData);
+    onTableDataChange(tableData);
   };
 
   const handleMakeExercise = () => {

@@ -33,11 +33,12 @@ function TableToGraph() {
   const [chartRef, setChartRef] = useState(null);
 
   // Toggle exercise mode, making "place dots" and "draw lines" usable
-  const handleExerciseModeToggle = () => {
+  const handleExerciseModeToggle = (tablesData) => {
     if (exerciseMode) {
       // This means we're about to disable exercise mode, i.e., submit exercise
       handleSubmitExercise();
     } else {
+      console.log(tablesData);
       const xArray = tablesData[0].data.map((point) => point.x);
       const yArray = tablesData[0].data.map((point) => point.y);
       setXyArrays({ xArray, yArray });
@@ -64,17 +65,19 @@ function TableToGraph() {
     setExerciseMode(!exerciseMode);
   };
 
-  const handleTableDataChange = (newData, tableIndex) => {
+  const handleTableDataChange = (newData) => {
     // Create a new array to avoid mutating state directly
     const updatedTablesData = [...tablesData];
-
+    console.log(newData);
     // Check if the table exists and update its data
-    if (updatedTablesData[tableIndex]) {
-      updatedTablesData[tableIndex].data = newData.map((x, i) => ({
-        x: x,
-        y: newData.y[i],
+    if (updatedTablesData[0]) {
+      updatedTablesData[0].data = newData.map((data, i) => ({
+        x: data.x,
+        y: data.y,
       }));
     }
+    console.log("----");
+    console.log(updatedTablesData[0].data);
 
     setTablesData(updatedTablesData);
   };
@@ -167,7 +170,7 @@ function TableToGraph() {
               exerciseBoolean={exerciseMode}
               key={index}
               tableData={tablesData[0].data}
-              onTableDataChange={(newData) => handleTableDataChange(newData, 1)}
+              onTableDataChange={handleTableDataChange}
             />
           ))}
       </div>
@@ -190,7 +193,7 @@ function TableToGraph() {
           <LineLegend lineDetails={lineDetails} />
           <div className={styles.arrowBox}>
             <button
-              onClick={handleExerciseModeToggle}
+              onClick={() => handleExerciseModeToggle(tablesData)}
               className={styles.activeButton}
             >
               {" "}
