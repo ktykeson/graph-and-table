@@ -149,7 +149,7 @@ function GraphToTable() {
   }, [tablesData]); // Re-run this effect only if tablesData changes
 
   return (
-    <div className={styles.GraphToTable}>
+    <div className={styles.graphToTable}>
       <div className={styles.graphBox}>
         <Graph
           graphRange={graphRange}
@@ -196,10 +196,10 @@ function GraphToTable() {
               className={styles.btnIcon}
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm0 8.625a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25ZM15.375 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 10.875a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Z"
+              ></path>
             </svg>
 
             {placeDotsActive ? "Placing Dots..." : "Place Dots"}

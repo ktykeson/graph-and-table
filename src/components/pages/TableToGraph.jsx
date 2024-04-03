@@ -159,7 +159,18 @@ function TableToGraph() {
   }, [exerciseMode]);
 
   return (
-    <div className={styles.TableToGraph}>
+    <div className={styles.tableToGraph}>
+      <div>
+        {tablesData.length > 0 &&
+          tablesData.map((table, index) => (
+            <TTG_Table
+              exerciseBoolean={exerciseMode}
+              key={index}
+              tableData={tablesData[0].data}
+              onTableDataChange={(newData) => handleTableDataChange(newData, 1)}
+            />
+          ))}
+      </div>
       <div className={styles.graph_box}>
         <Graph
           graphRange={graphRange}
@@ -175,9 +186,31 @@ function TableToGraph() {
           setLineDetails={setLineDetails}
           setChartRef={setChartRef}
         />
-        <div style={{ width: "20%" }}>
+        <div className={styles.flexCenter}>
           <LineLegend lineDetails={lineDetails} />
-          <div className={styles.arrow_box}>
+          <div className={styles.arrowBox}>
+            <button
+              onClick={handleExerciseModeToggle}
+              className={styles.activeButton}
+            >
+              {" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className={styles.btnIcon}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                />
+              </svg>
+              {exerciseMode ? "Submit Exercise" : "Make Exercise"}
+            </button>
+            <br />
             <button
               onClick={() => {
                 setPlaceDotsActive(!placeDotsActive);
@@ -188,6 +221,20 @@ function TableToGraph() {
                 exerciseMode ? styles.activeButton : styles.inactiveButton
               }
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className={styles.btnIcon}
+              >
+                <path
+                  clip-rule="evenodd"
+                  fill-rule="evenodd"
+                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm0 8.625a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25ZM15.375 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 10.875a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Z"
+                ></path>
+              </svg>
               {placeDotsActive ? "Placing Dots..." : "Place Dots"}
             </button>
             <br />
@@ -202,29 +249,27 @@ function TableToGraph() {
                 exerciseMode ? styles.activeButton : styles.inactiveButton
               }
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className={styles.btnIcon}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"
+                />
+              </svg>
               {drawLineActive ? "Drawing Line..." : "Draw Line"}
             </button>
             <br />
-            <button
-              onClick={handleExerciseModeToggle}
-              className={styles.toggleButton}
-            >
-              {exerciseMode ? "Submit Exercise" : "Make Exercise"}
-            </button>
+
             <br />
           </div>
         </div>
-      </div>
-      <div>
-        {tablesData.length > 0 &&
-          tablesData.map((table, index) => (
-            <TTG_Table
-              exerciseBoolean={exerciseMode}
-              key={index}
-              tableData={tablesData[0].data}
-              onTableDataChange={(newData) => handleTableDataChange(newData, 1)}
-            />
-          ))}
       </div>
     </div>
   );

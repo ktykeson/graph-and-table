@@ -12,6 +12,15 @@
   /* Allow vertical scrolling */
 }
 
+.graphToTable {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 .graphBox {
   width: 100vw;
   max-width: 100%;
@@ -196,11 +205,12 @@ button:focus {
 }
 
 .flexCenter {
-  width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
+  background-color: white;
 }
 
 .centerText {

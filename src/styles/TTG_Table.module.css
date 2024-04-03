@@ -3,6 +3,11 @@
   /* This makes it the reference point for absolute positioned children */
 }
 
+.columnModificationButtons {
+  display: flex;
+  justify-content: center;
+}
+
 .button-container {
   position: absolute;
   /* Adjust based on your layout, might need relative positioning on the parent */
@@ -83,7 +88,9 @@
 
 .addButton,
 .removeButton {
-  cursor: pointer;
+  width: 12vw;
+  position: relative;
+  padding: 10px 10px;
 }
 
 .addButton.disabled,
@@ -143,4 +150,16 @@
   margin: 5px;
   text-align: center;
   box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+
+.btnIcon {
+  position: absolute;
+  width: 20px;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
 }
