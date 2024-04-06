@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "../../styles/TableExercise.module.css";
 import Popup from "../../Popup";
 import Table from "../final/Table";
-
 // Define the number of columns
 
 function TableExercise() {
@@ -12,7 +11,6 @@ function TableExercise() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState(true);
   const [correct, setCorrect] = useState(true);
-
   const handleInputChange = (axis, index, value) => {
     const newData = data.map((item, i) =>
       i === index ? { ...item, [axis]: value } : item
@@ -78,7 +76,11 @@ function TableExercise() {
 
   const confirmAnswer = () => {
     setShowPopup(false);
-    window.location.reload();
+    setData(Array(7).fill({ x: "", y: "" }));
+    setExerciseMode(false);
+    setShowPopup(false);
+    setCorrect(true);
+    setHiddenIndices([]);
   };
 
   const tryAgain = () => {
