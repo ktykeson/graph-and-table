@@ -5,10 +5,7 @@ import Popup from "../../Popup";
 // Define the number of columns
 
 function TableExercise() {
-  const [data, setData] = useState({
-    x: Array(7).fill(""),
-    y: Array(7).fill(""),
-  });
+  const [data, setData] = useState(Array(7).fill({ x: "", y: "" }));
   const [hiddenIndices, setHiddenIndices] = useState([]);
   const [exerciseMode, setExerciseMode] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
@@ -16,8 +13,9 @@ function TableExercise() {
   const [correct, setCorrect] = useState(true);
 
   const handleInputChange = (axis, index, value) => {
-    const newData = { ...data, [axis]: [...data[axis]] };
-    newData[axis][index] = value;
+    const newData = data.map((item, i) =>
+      i === index ? { ...item, [axis]: value } : item
+    );
     console.log(newData);
     setData(newData);
 
@@ -32,7 +30,7 @@ function TableExercise() {
     while (clearedIndices.size < totalClearCount) {
       // Randomly decide to clear from x or y
       const axis = Math.random() < 0.5 ? "x" : "y";
-      const index = Math.floor(Math.random() * data.x.length);
+      const index = Math.floor(Math.random() * data.length);
 
       // Construct a unique identifier for the index and axis to avoid duplicates
       clearedIndices.add(`${axis}-${index}`);
@@ -40,48 +38,28 @@ function TableExercise() {
 
     // Adjust data to reflect cleared inputs for both x and y
     let newArray = structuredClone(data);
-    console.log(clearedIndices);
-    setData((prevData) => {
-      let newData = { ...prevData };
 
-      let newClearedIndex = [];
-      clearedIndices.forEach((clearedIndex) => {
-        console.log("why run");
-        console.log(newArray);
-        const [axis, index] = clearedIndex.split("-");
-        let valueCopy = newArray[axis][Number(index)];
-        let thingToPush = { axis, index, number: valueCopy };
-        console.log(thingToPush);
-        newClearedIndex.push(thingToPush);
-        newData[axis][Number(index)] = ""; // Clear the value
-      });
-
-      return newData;
-    });
     let newClearedIndex = [];
+    let newData = [...data];
     clearedIndices.forEach((clearedIndex) => {
       const [axis, index] = clearedIndex.split("-");
-      let valueCopy = newArray[axis][Number(index)];
+      let valueCopy = newArray[Number(index)][axis];
       let thingToPush = { axis, index, number: valueCopy };
-      console.log(thingToPush);
+      newData[Number(index)][axis] = ""; // Clear the value
       newClearedIndex.push(thingToPush);
     });
     setHiddenIndices(newClearedIndex);
-    // Store cleared indices in a way that's compatible with the checking function
-
+    setData(newData);
     setExerciseMode(true);
   };
 
   const handleCheck = () => {
     let isCorrect = true;
-    console.log(hiddenIndices);
-    console.log(data);
     hiddenIndices.forEach((item) => {
       console.log(item.number);
-      console.log(data.y[item.index]);
       if (
-        (item.axis === "y" && data.y[item.index] !== item.number) ||
-        (item.axis === "x" && data.x[item.index] !== item.number)
+        (item.axis === "y" && data[item.index].y !== item.number) ||
+        (item.axis === "x" && data[item.index].x !== item.number)
       ) {
         isCorrect = false;
       }
@@ -107,17 +85,11 @@ function TableExercise() {
   };
 
   const addColumn = () => {
-    setData((prevData) => ({
-      x: [...prevData.x, ""], // Add empty string to simulate new column
-      y: [...prevData.y, ""],
-    }));
+    setData([...data, { x: "", y: "" }]);
   };
 
   const removeColumn = () => {
-    setData((prevData) => ({
-      x: prevData.x.slice(0, -1), // Remove last element
-      y: prevData.y.slice(0, -1),
-    }));
+    setData(data.slice(0, -1));
   };
 
   return (
@@ -170,48 +142,24 @@ function TableExercise() {
       )}
       <table>
         <tbody>
-          <tr>
-            <td>x</td>
-            {data.x.map((value, index) => (
-              <td key={`x-${index}`}>
-                <input
-                  type="text"
-                  value={value}
-                  onChange={(e) =>
-                    handleInputChange("x", index, e.target.value)
-                  }
-                  disabled={
-                    exerciseMode &&
-                    !hiddenIndices.some(
-                      (item) =>
-                        item.axis === "x" && parseInt(item.index) === index
-                    )
-                  }
-                />
-              </td>
-            ))}
-          </tr>
-          <tr>
-            <td>y</td>
-            {data.y.map((value, index) => (
-              <td key={`y-${index}`}>
-                <input
-                  type="text"
-                  value={value}
-                  onChange={(e) =>
-                    handleInputChange("y", index, e.target.value)
-                  }
-                  disabled={
-                    exerciseMode &&
-                    !hiddenIndices.some(
-                      (item) =>
-                        item.axis === "y" && parseInt(item.index) === index
-                    )
-                  }
-                />
-              </td>
-            ))}
-          </tr>
+          {["x", "y"].map((axis) => (
+            <tr key={axis}>
+              <td>{axis}</td>
+              {Array.isArray(data) &&
+                data.map((item, index) => (
+                  <td key={`${axis}-${index}`}>
+                    <input
+                      type="text"
+                      value={item[axis]}
+                      onChange={(e) =>
+                        handleInputChange(axis, index, e.target.value)
+                      }
+                      disabled={exerciseMode && hiddenIndices.includes(index)}
+                    />
+                  </td>
+                ))}
+            </tr>
+          ))}
         </tbody>
       </table>
       {!exerciseMode ? (
