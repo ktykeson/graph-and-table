@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../styles/TableExercise.module.css";
 import Popup from "../../Popup";
+import Table from "../final/Table";
 
 // Define the number of columns
 
@@ -91,7 +92,9 @@ function TableExercise() {
   const removeColumn = () => {
     setData(data.slice(0, -1));
   };
-
+  const disableEdit = (index) => {
+    return exerciseMode && hiddenIndices.includes(index);
+  };
   return (
     <div className={styles.exerciseTable}>
       {showPopup && (
@@ -140,28 +143,12 @@ function TableExercise() {
           </button>
         </div>
       )}
-      <table>
-        <tbody>
-          {["x", "y"].map((axis) => (
-            <tr key={axis}>
-              <td>{axis}</td>
-              {Array.isArray(data) &&
-                data.map((item, index) => (
-                  <td key={`${axis}-${index}`}>
-                    <input
-                      type="text"
-                      value={item[axis]}
-                      onChange={(e) =>
-                        handleInputChange(axis, index, e.target.value)
-                      }
-                      disabled={exerciseMode && hiddenIndices.includes(index)}
-                    />
-                  </td>
-                ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table
+        data={data}
+        handleInputChange={handleInputChange}
+        disabled={disableEdit}
+        hiddenIndices={hiddenIndices}
+      />
       {!exerciseMode ? (
         <button className={styles.addButton} onClick={handleMakeExercise}>
           {" "}
